@@ -1,25 +1,19 @@
 const express = require("express");
 const cors = require("cors");
-const path = require("path");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Serve frontend
-app.use(express.static(path.join(__dirname)));
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "index.html"));
-});
-
-// Diary API
+// Diary entries storage
 let diaryEntries = [];
 
+// Get entries
 app.get("/entries", (req, res) => {
   res.json(diaryEntries);
 });
 
+// Add entry
 app.post("/entries", (req, res) => {
   const entry = {
     text: req.body.text,
@@ -29,5 +23,11 @@ app.post("/entries", (req, res) => {
   res.json({ message: "Entry added", entry });
 });
 
-const PORT = process.env.PORT || 3000;
+// Root route for testing
+app.get("/", (req, res) => {
+  res.send("Backend is running");
+});
+
+// Use Render’s assigned PORT
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
