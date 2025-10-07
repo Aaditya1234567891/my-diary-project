@@ -1,19 +1,25 @@
 const express = require("express");
 const cors = require("cors");
-const app = express();
+const path = require("path");
 
+const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Temporary in-memory storage
+// Serve frontend
+app.use(express.static(path.join(__dirname)));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
+});
+
+// Diary API
 let diaryEntries = [];
 
-// Get all entries
 app.get("/entries", (req, res) => {
   res.json(diaryEntries);
 });
 
-// Add a new entry
 app.post("/entries", (req, res) => {
   const entry = {
     text: req.body.text,
@@ -23,5 +29,5 @@ app.post("/entries", (req, res) => {
   res.json({ message: "Entry added", entry });
 });
 
-const PORT = 8000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
