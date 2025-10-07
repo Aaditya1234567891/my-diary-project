@@ -1,4 +1,4 @@
-const backendURL = "http://localhost:3000";
+const backendURL = "https://my-diary-projectafd.onrender.com/";
 
 async function saveEntry() {
   const text = document.getElementById("diaryText").value.trim();
@@ -31,3 +31,4 @@ async function loadEntries() {
 }
 
 window.onload = loadEntries;
+
